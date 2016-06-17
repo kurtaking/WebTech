@@ -29,7 +29,7 @@
         // Create the new user account
         // hash password before inserting into DB
         $hash_pw = password_hash($password, PASSWORD_DEFAULT);
-        $result_insert = mysqli_query($conn, "INSERT INTO users(username, password, email, name, date_of_birth, gender, verification_question, verification_answer, profile_image) VALUES ('$username', '$password', '$email', '$name', '$date_of_birth', '$gender', '$verification_question', '$verification_answer', '$profile_image')");
+        $result_insert = mysqli_query($conn, "INSERT INTO users(username, password, email, name, date_of_birth, gender, verification_question, verification_answer, profile_image) VALUES ('$username', '$hash_pw', '$email', '$name', '$date_of_birth', '$gender', '$verification_question', '$verification_answer', '$profile_image')");
 
         if($result_insert) {
             $_SESSION["username"] = $username;

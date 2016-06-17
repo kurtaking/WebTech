@@ -57,12 +57,12 @@
 
   $username = $_SESSION["username"];
   $result = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
-  $row = mysqli_fetch_assoc($result);
-  $birthday = date("F d, Y", strtotime($row[date_of_birth]));
+  $user_row = mysqli_fetch_assoc($result);
+  $birthday = date("F d, Y", strtotime($user_row[date_of_birth]));
 
-  echo "<br><br><br><img class='responsive-img' src='".$row['profile_image']."'>";
+  echo "<br><br><br><img class='responsive-img' src='$user_row[profile_image]'>";
   echo "
-    <h5>$row[name]<i class='small material-icons left'>account_box</i></h5>
+    <h5>$user_row[name]<i class='small material-icons left'>account_box</i></h5>
     <div class='row' style='margin-left: 20px;'>
         <div class='col s3'>
             <p>Email</p>
@@ -70,8 +70,8 @@
             <p>Birthday</p>
         </div>
         <div class='col s4'>
-            <p>$row[email]</p>
-            <p>$row[gender]</p>
+            <p>$user_row[email]</p>
+            <p>$user_row[gender]</p>
             <p>$birthday</p>
         </div>
     </div>
@@ -88,7 +88,7 @@
             <textarea name='content'></textarea>
           </div>
         </div>
-        <input type='hidden' name='user_id' value='$row[user_id]'>
+        <input type='hidden' name='user_id' value='$user_row[user_id]'>
         <button class='btn right-align right' type='submit'>Post</button>
       </form>
     </div>
@@ -148,13 +148,15 @@
       ";
     }
 
+
+
     echo "
           <br>
           <hr>
           <form action='comment.php' method='POST' class='darken-4'>
             <div class='row'>
               <div class='input-field col s10'>
-                <input type='hidden' name='user_id' value='$row[user_id]'>
+                <input type='hidden' name='user_id' value='$user_row[user_id]'>
                 <input type='hidden' name='post_id' value='$row[id]'>   
                 <textarea id='comment' name='comment' class='materialize-textarea' placeholder='Write a comment...'></textarea>
               </div>
@@ -173,14 +175,12 @@
         
     ";
 
-
-   // echo "<form action='likes.php' method='POST'> <input type='hidden' name='PID' value='$row[0]'> <input type='submit' value='Like'></form>";
   }
-  echo "</ul>";
 
-
-  echo "</div>";
-  echo "</div>";
+  echo "    </ul>
+          </div>
+        </div>
+       ";
 ?>
 
 <!-- Compiled and minified JavaScript -->
