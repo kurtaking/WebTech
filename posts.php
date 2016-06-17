@@ -1,10 +1,11 @@
 <?php
   session_start();
   include('database.php');
+  include('functions.php');
 
   //Get data from the form
-  $content = $_POST['content'];
-  $user_id = $_POST['user_id'];
+  $content = sanitizeString($_POST['content']);
+  $user_id = sanitizeString($_POST['user_id']);
 
   //connect to DB
   $conn = connect_db();
@@ -13,8 +14,8 @@
   $row = mysqli_fetch_assoc($result);
 
   //Fetch User information
-  $name = $row["name"];
-  $profile_image = $row["profile_image"];
+  $name = sanitizeString($row["name"]);
+  $profile_image = sanitizeString($row["profile_image"]);
 
   $result_insert = mysqli_query($conn, "INSERT INTO post(content, user_id, name, profile_image, likes) VALUES ('$content', $user_id, '$name', '$profile_image', 0)");
 
