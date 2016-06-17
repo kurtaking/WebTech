@@ -8,10 +8,10 @@
 
   $conn = connect_db();
 
-  $result = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
+  $result = mysqli_query($conn, "SELECT * FROM users WHERE Username='$username'");
   $row = mysqli_fetch_assoc($result);
 
-  if(password_verify($password, $row['password'])) {
+  if(password_verify($password, $row['Password'])) {
     $_SESSION["username"] = $username;
     header("Location: feed.php");
   }

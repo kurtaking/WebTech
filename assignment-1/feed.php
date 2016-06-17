@@ -43,13 +43,15 @@
   </style>
 
 </head>
-<body>
+<body style="position: relative;">
 <?php
   include('database.php');
 
-  echo "<div class='container'>
+  echo "<div class='container' style='position: relative;'>
         <div class='row'>
         <div class='col s12 m4'>
+        
+         
     ";
 
   session_start();
@@ -62,19 +64,24 @@
 
   echo "<br><br><br><img class='responsive-img' src='$user_row[profile_pic]'>";
   echo "
-    <h5>$user_row[Name]<i class='small material-icons left'>account_box</i></h5>
+    <h5>$user_row[Username]<i class='small material-icons left'>account_box</i></h5>
     <div class='row' style='margin-left: 20px;'>
         <div class='col s3'>
+            <p>Name</p>
             <p>Email</p>
             <p>Gender</p>
             <p>Birthday</p>
             <p>Location</p>
         </div>
         <div class='col s9'>
+            <p>$user_row[Name]</p>
             <p>$user_row[email]</p>
             <p>$user_row[gender]</p>
             <p>$birthday</p>
             <p>$user_row[location]</p>
+        </div>
+        <div class='col s12'>
+            <p><a class='waves-effect waves-light modal-trigger' href='#user_info'>Update Profile</a></p>
         </div>
     </div>
     <hr>
@@ -98,7 +105,7 @@
   ";
 
   echo "</div>";
-  echo "<div class='col s12 m8'>";
+  echo "<div class='col s12 m8' style='max-height: 900px; overflow: auto'>";
 
 
   $result_posts = mysqli_query($conn, "SELECT * FROM post ORDER BY id DESC");
@@ -131,9 +138,18 @@
           <h6><strong>Comments</strong></h6>
           ";
 
+
     $result_comments = mysqli_query($conn, "SELECT * FROM comment WHERE post_id='$row[id]' ORDER BY id");
     $num_of_comments = mysqli_num_rows($result_comments);
 
+    # If there are no comments, display 'no comment' message to user
+    if($num_of_comments == 0){
+      echo "
+        <p>There are currently no comments to display</p>
+      ";
+    }
+
+    # Loop through the number of comments and display each one
     for ($j = 0; $j < $num_of_comments; $j++){
       $comment_row = mysqli_fetch_assoc($result_comments);
       $comment_date = date("h:i:sa", strtotime($comment_row['created_time']));
@@ -179,14 +195,102 @@
 
   }
 
-  echo "    </ul>
+  echo "    
+            </ul>
           </div>
         </div>
+        
+        <!-- Modal Structure -->
+          <div id='user_info' class='modal' style='min-height: 625px'>
+            <div class='modal-content'>
+              <h4>User Profile<hr></h4>
+                <form class='col s12' action='updateuser.php' method='POST'>
+                    <input type='hidden' name='user_id' value='$user_row[id]'>
+                
+            <div class='row'>
+                <div class='input-field col s6'>
+                    <input id='username' name='username' type='text' value='$user_row[Username]'>
+                    <label for='username'>Username</label>
+                </div>
+                <div class='input-field col s6'>
+                    <input id='full_name' name='full_name' type='text' value='$user_row[Name]'>
+                    <label for='full_name'>Full Name</label>
+                </div>
+                <div class='input-field col s6'>
+                    <input id='email' name='email' type='email' value='$user_row[email]'>
+                    <label for='email'>Email</label>
+                </div>
+                <div class='input-field col s6'>
+                    <input id='date_of_birth' name='date_of_birth' type='date' class='datepicker' placeholder='Date of Birth' value='$user_row[dob]'>
+                    <label for='date_of_birth'>Date of Birth</label>
+                </div>
+                
+                <div class='col s12'>
+                    <p>Please choose your gender</p>
+                </div>
+                <div class='col s3' style='margin-bottom: 15px;'>
+                    <p>
+                        <input name='gender' class='with-gap' type='radio' id='male' value='male' />
+                        <label for='male'>Male</label>
+                    </p>
+                </div>
+                <div class='col s3' style='margin-bottom: 15px;'>
+                    <p>
+                        <input name='gender' class='with-gap' type='radio' id='female' value='female' />
+                        <label for='female'>Female</label>
+                    </p>
+                 </div>
+                 <div class='col s6' style='margin-bottom: 15px;'>
+                    <p>
+                        <input name='gender' class='with-gap' type='radio' id='other' value='other'/>
+                        <label for='other'>I prefer not to specify</label>
+                    </p>
+                 </div>
+                 
+                <div class='input-field col s6'>
+                    <input id='verification_question' name='verification_question' type='text' value='$user_row[verification_question]'>
+                    <label for='verification_question'>Verification Question</label>
+                </div>
+                <div class='input-field col s6'>
+                    <input id='verification_answer' name='verification_answer' type='text' value='$user_row[verification_answer]'>
+                    <label for='verification_answer'>Verification Answer</label>
+                </div>
+                <div class='input-field col s12'>
+                    <input id='profile_image' name='profile_image' type='text' value='$user_row[profile_pic]'>
+                    <label for='profile_image'>Profile Image</label>
+                </div>
+                <div class='input-field col s12'>
+                    <button class='btn'>Update</button>
+                </div>
+
+            </div>
+
+        </form>
+            </div>
+            
+            <div class='modal-footer'>
+              <a href='#!' class='modal-action modal-close waves-effect waves-green btn-flat'>Cancel</a>
+            </div>
+          </div>
        ";
 ?>
 
 <!-- Compiled and minified JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('.modal-trigger').leanModal();
+
+    $('select').material_select();
+
+    $('.datepicker').pickadate({
+      selectMonths: true,
+      selectYears: 50,
+    });
+
+  });
+</script>
 
 
 </body>
