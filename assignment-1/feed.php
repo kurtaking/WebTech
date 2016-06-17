@@ -45,6 +45,7 @@
 </head>
 <body style="position: relative;">
 <?php
+  include('navbar.php');
   include('database.php');
 
   echo "<div class='container' style='position: relative;'>
