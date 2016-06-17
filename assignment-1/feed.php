@@ -7,14 +7,13 @@
 
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+  <link rel="stylesheet" href="styles.css">
+
 
   <title>My Storyboard</title>
 
   <style>
-    html {
-      background: #355c7d;
-
-    }
+    
     .container {
       margin-top: 15px;
       min-width: 80%;
