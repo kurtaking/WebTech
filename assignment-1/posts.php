@@ -10,12 +10,12 @@
   //connect to DB
   $conn = connect_db();
 
-  $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id = '$user_id'");
+  $result = mysqli_query($conn, "SELECT * FROM users WHERE id = '$user_id'");
   $row = mysqli_fetch_assoc($result);
 
   //Fetch User information
-  $name = sanitizeString($row["name"]);
-  $profile_image = sanitizeString($row["profile_image"]);
+  $name = sanitizeString($row["Name"]);
+  $profile_image = sanitizeString($row["profile_pic"]);
 
   $result_insert = mysqli_query($conn, "INSERT INTO post(content, user_id, name, profile_image, likes) VALUES ('$content', $user_id, '$name', '$profile_image', 0)");
 

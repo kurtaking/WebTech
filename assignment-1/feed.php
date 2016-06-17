@@ -56,23 +56,25 @@
   $conn = connect_db();
 
   $username = $_SESSION["username"];
-  $result = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
+  $result = mysqli_query($conn, "SELECT * FROM users WHERE Username='$username'");
   $user_row = mysqli_fetch_assoc($result);
-  $birthday = date("F d, Y", strtotime($user_row[date_of_birth]));
+  $birthday = date("F d, Y", strtotime($user_row[dob]));
 
-  echo "<br><br><br><img class='responsive-img' src='$user_row[profile_image]'>";
+  echo "<br><br><br><img class='responsive-img' src='$user_row[profile_pic]'>";
   echo "
-    <h5>$user_row[name]<i class='small material-icons left'>account_box</i></h5>
+    <h5>$user_row[Name]<i class='small material-icons left'>account_box</i></h5>
     <div class='row' style='margin-left: 20px;'>
         <div class='col s3'>
             <p>Email</p>
             <p>Gender</p>
             <p>Birthday</p>
+            <p>Location</p>
         </div>
-        <div class='col s4'>
+        <div class='col s9'>
             <p>$user_row[email]</p>
             <p>$user_row[gender]</p>
             <p>$birthday</p>
+            <p>$user_row[location]</p>
         </div>
     </div>
     <hr>
@@ -88,7 +90,7 @@
             <textarea name='content'></textarea>
           </div>
         </div>
-        <input type='hidden' name='user_id' value='$user_row[user_id]'>
+        <input type='hidden' name='user_id' value='$user_row[id]'>
         <button class='btn right-align right' type='submit'>Post</button>
       </form>
     </div>
@@ -156,7 +158,7 @@
           <form action='comment.php' method='POST' class='darken-4'>
             <div class='row'>
               <div class='input-field col s10'>
-                <input type='hidden' name='user_id' value='$user_row[user_id]'>
+                <input type='hidden' name='user_id' value='$user_row[id]'>
                 <input type='hidden' name='post_id' value='$row[id]'>   
                 <textarea id='comment' name='comment' class='materialize-textarea' placeholder='Write a comment...'></textarea>
               </div>
