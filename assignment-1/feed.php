@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="styles.css">
 
 
-  <title>My Storyboard</title>
+  <title>Storyboard Feed</title>
 
   <style>
     
@@ -127,7 +127,7 @@
   ";
 
   echo "</div>";
-  echo "<div class='col s12 m8'><h4 class='center-align'>Storyboard</h4><hr></div>";
+  echo "<div class='col s12 m8'><h4 class='center-align'>Story<b>board</b></h4><hr></div>";
   echo "<div class='col s12 m8' style='max-height: 900px; overflow: auto'>";
 
 
@@ -211,7 +211,7 @@
           <form action='likes.php' method='POST'>
           <br>
           <button class='secondary-content btn-floating' type='submit' value='Like'><i class='material-icons'>thumb_up</i></a>
-          <input type='hidden' name='post_id' value='$row[id]'> <input type='submit' value='Like'></form>
+          <input type='hidden' name='post_id' value='$row[id]'> <input type='button' value='Like'></form>
         </li>
         
     ";
