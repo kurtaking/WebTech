@@ -7,7 +7,85 @@ h4 {
     letter-spacing: .025px;
 }
 
-h5 {
+h5, p {
     font-family: "Titillium Web";
     font-weight: 300;
+}
+
+label {
+    color: #f67280 !important;
+}
+
+.material-icons {
+    color: #355c7d !important;
+}
+
+input:not([type]):focus:not([readonly]),
+input[type=text]:focus:not([readonly]),
+input[type=password]:focus:not([readonly]),
+input[type=email]:focus:not([readonly]),
+input[type=url]:focus:not([readonly]),
+input[type=time]:focus:not([readonly]),
+input[type=date]:focus:not([readonly]),
+input[type=datetime]:focus:not([readonly]),
+input[type=datetime-local]:focus:not([readonly]),
+input[type=tel]:focus:not([readonly]),
+input[type=number]:focus:not([readonly]),
+input[type=search]:focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #f67280;
+    box-shadow: 0 1px 0 0 #f67280;
+}
+
+
+
+/** Change the colors of the blockquote depending on if its a new story or comment **/
+.blockquote-peach {
+    border-left-color: #6c5b7b !important;
+}
+.blockquote-tan {
+    border-left-color: #c06c84 !important;
+}
+
+button.btn,  a.btn {
+    background-color: #f67280 !important;
+}
+
+.btn-floating {
+    background-color: #efeeed !important;
+}
+
+nav {
+    background-color: #f67280 !important;
+}
+
+nav ul {
+    padding-left: 150px;
+}
+
+nav li a {
+    color: #fff !important;
+    font-size: 1.2em;
+}
+
+
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+/** Margin and Padding CSS Hacks **/
+.no-padding-top {
+    padding-top: 0 !important;
+}
+.no-padding-bottom {
+    padding-bottom: 0 !important;
+}
+
+.no-margin-top {
+    margin-top: 0 !important;
+}
+.no-margin-bottom {
+    margin-bottom: 0 !important;
 }

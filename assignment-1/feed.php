@@ -20,11 +20,16 @@
       padding-left: 10px;
       padding-right: 10px;
       background: #fff;
+      border: solid 10px #fff;
     }
 
-    .collection-item li {
+    li.collection-item.avatar {
       margin-bottom: 10px !important;
       top: 10px !important;
+    }
+
+    li.collection-item.avatar {
+      border-bottom: solid 5px #efeeed;
     }
 
     #comment-button {
@@ -62,23 +67,28 @@
   $user_row = mysqli_fetch_assoc($result);
   $birthday = date("F d, Y", strtotime($user_row[dob]));
 
-  echo "<br><br><br><img class='responsive-img' src='$user_row[profile_pic]'>";
+  $user_posts = mysqli_query($conn, "SELECT * FROM post WHERE user_id='$user_row[id]'");
+  $num_of_user_posts = mysqli_num_rows($user_posts);
+
+  echo "<br><br><br><img class='responsive-img materialboxed' src='$user_row[profile_pic]'>";
   echo "
     <h5>$user_row[Username]<i class='small material-icons left'>account_box</i></h5>
     <div class='row' style='margin-left: 20px;'>
         <div class='col s3'>
-            <p>Name</p>
-            <p>Email</p>
-            <p>Gender</p>
-            <p>Birthday</p>
-            <p>Location</p>
+            <p class='no-margin-top no-margin-bottom'>Name</p>
+            <p class='no-margin-top no-margin-bottom'>Email</p>
+            <p class='no-margin-top no-margin-bottom'>Gender</p>
+            <p class='no-margin-top no-margin-bottom'>Birthday</p>
+            <p class='no-margin-top no-margin-bottom'>Location</p>
+            <p class='no-margin-top no-margin-bottom'>Posts</p>
         </div>
         <div class='col s9'>
-            <p>$user_row[Name]</p>
-            <p>$user_row[email]</p>
-            <p>$user_row[gender]</p>
-            <p>$birthday</p>
-            <p>$user_row[location]</p>
+            <p class='no-margin-top no-margin-bottom'>$user_row[Name]</p>
+            <p class='no-margin-top no-margin-bottom'>$user_row[email]</p>
+            <p class='no-margin-top no-margin-bottom'>$user_row[gender]</p>
+            <p class='no-margin-top no-margin-bottom'>$birthday</p>
+            <p class='no-margin-top no-margin-bottom'>$user_row[location]</p>
+            <p class='no-margin-top no-margin-bottom'>$num_of_user_posts</p>
         </div>
         <div class='col s12'>
             <p><a class='waves-effect waves-light modal-trigger' href='#user_info'>Update Profile</a></p>
@@ -93,25 +103,38 @@
     <div class='row'>
       <form class='col s12' method='POST' action='posts.php'>
         <div class='row'>
-          <div class='input-field col s6'  style='width: 100%'>
-            <textarea name='content'></textarea>
+          <div class='input-field col s12'>
+            <textarea name='content' style='min-height: 75px;'></textarea>
           </div>
         </div>
         <input type='hidden' name='user_id' value='$user_row[id]'>
         <button class='btn right-align right' type='submit'>Post</button>
       </form>
     </div>
-    <br><br>
+    <!-- <hr>
+    <h5>Storyboards (not working)</h5>
+    <div class='row'>
+        <form class='col s12' action='' method='POST' style='margin-left: 15px'>
+            <div class='row'>
+                <div class='input-field col s12'>
+                    <a type='submit'>MyStory</a><br>
+                    <a type='submit'>Lebron James</a><br>
+                    <a type='submit'>Steph Curry</a><br>
+                </div>
+            </div>
+        </form>
+    </div> -->
   ";
 
   echo "</div>";
+  echo "<div class='col s12 m8'><h4 class='center-align'>Storyboard</h4><hr></div>";
   echo "<div class='col s12 m8' style='max-height: 900px; overflow: auto'>";
 
 
   $result_posts = mysqli_query($conn, "SELECT * FROM post ORDER BY id DESC");
   $num_of_rows = mysqli_num_rows($result_posts);
 
-  echo "<h4 class='center-align'>Storyboard</h4><hr>";
+
 
   if ($num_of_rows == 0) {
     echo "<p>No new posts to show!</p>";
@@ -122,16 +145,16 @@
   for($i = 0; $i < $num_of_rows; $i++){
     $row = mysqli_fetch_assoc($result_posts);
 
-    $time = date("h:i:sa", strtotime($row['created_time']));
-    $date = date("d/m/y", strtotime($row['created_time']));
+    $time = date("h:ia", strtotime($row['created_time']));
+    $date = date("d.m.y", strtotime($row['created_time']));
 
     echo "
         <li class='collection-item avatar'>
           <br>
           <img src='$row[profile_image]' class='circle'>
           <span class='title'><strong><span style='font-size: 1.25em;'>$row[name]</span></strong> <span class='light-text'>posted at $time on $date</span></span>
-          <p style='max-width: 80%; margin-top:5px;'>$row[content]</p>
           <p style='margin-top:5px;'>Likes: $row[likes]</p>
+          <blockquote class='blockquote-peach' style='max-width: 80%; margin-top:5px;'>$row[content]</blockquote>
           <br>
           <hr>
           <br>
@@ -152,12 +175,12 @@
     # Loop through the number of comments and display each one
     for ($j = 0; $j < $num_of_comments; $j++){
       $comment_row = mysqli_fetch_assoc($result_comments);
-      $comment_date = date("h:i:sa", strtotime($comment_row['created_time']));
+      $comment_date = date("h:i a", strtotime($comment_row['created_time']));
       $comment_num = $j + 1;
       echo "
         <div class='row' style='padding-left: 10px;'>
             <div class='col s3'>
-              <blockquote><strong>$comment_row[name]</strong><br>$comment_date</blockquote>
+              <blockquote class='blockquote-tan'><strong>$comment_row[name]</strong><br>$comment_date</blockquote>
             </div>
             <div class='col s9' style='margin-top: 20px;'>
               $comment_row[comment]
@@ -289,6 +312,7 @@
       selectYears: 50,
     });
 
+    $('.materialboxed').materialbox();
   });
 </script>
 
