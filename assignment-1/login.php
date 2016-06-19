@@ -2,11 +2,10 @@
   include('database.php');
 
   session_start();
+  $conn = connect_db();
 
   $username = $_POST["username"];
   $password = $_POST["password"];
-
-  $conn = connect_db();
 
   $result = mysqli_query($conn, "SELECT * FROM users WHERE Username='$username'");
   $row = mysqli_fetch_assoc($result);

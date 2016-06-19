@@ -12,11 +12,12 @@ function destroySession()
     header("Location: login.html");
 }
 
-function sanitizeString($var)
+function sanitizeString($conn, $var)
 {
     $var = strip_tags($var);
     $var = htmlentities($var);
     $var = stripslashes($var);
+    $var = mysqli_real_escape_string($conn, $var);
     return $var;
 }
 ?>

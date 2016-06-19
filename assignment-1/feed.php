@@ -9,11 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
   <link rel="stylesheet" href="styles.css">
 
-
   <title>Storyboard Feed</title>
 
   <style>
-    
     .container {
       margin-top: 15px;
       min-width: 80%;
@@ -43,7 +41,6 @@
     .account-icon {
       padding-top: 15px;
     }
-
   </style>
 
 </head>
@@ -52,15 +49,15 @@
   include('navbar.php');
   include('database.php');
 
+  session_start();
+  $conn = connect_db();
+
   echo "<div class='container' style='position: relative;'>
         <div class='row'>
         <div class='col s12 m4'>
         
          
     ";
-
-  session_start();
-  $conn = connect_db();
 
   $username = $_SESSION["username"];
   $result = mysqli_query($conn, "SELECT * FROM users WHERE Username='$username'");

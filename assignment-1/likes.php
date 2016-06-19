@@ -6,7 +6,7 @@
     $conn = connect_db();
 
     //get data from the form
-    $post_id = sanitizeString($_POST['post_id']);
+    $post_id = sanitizeString($conn, $_POST['post_id']);
 
     //query DB for this Post
     $result = mysqli_query($conn, "SELECT * FROM post WHERE id='$post_id'");

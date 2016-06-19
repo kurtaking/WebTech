@@ -20,22 +20,21 @@
     include('functions.php');
 
     session_start();
-
     $conn = connect_db();
 
-    $username = sanitizeString($_POST["username"]);
-    $email = sanitizeString($_POST["email"]);
-    $password = sanitizeString($_POST["password"]);
-    $confirm_password = sanitizeString($_POST["confirm_password"]);
-    $name = sanitizeString($_POST["full_name"]);
-    $date_of_birth = sanitizeString($_POST["date_of_birth"]);
-    $gender = sanitizeString($_POST["gender"]);
-    $verification_question = sanitizeString($_POST["verification_question"]);
-    $verification_answer = sanitizeString($_POST["verification_answer"]);
-    $profile_image = sanitizeString($_POST["profile_image"]);
+    $username = sanitizeString($conn, $_POST["username"]);
+    $email = sanitizeString($conn, $_POST["email"]);
+    $password = sanitizeString($conn, $_POST["password"]);
+    $confirm_password = sanitizeString($conn, $_POST["confirm_password"]);
+    $name = sanitizeString($conn, $_POST["full_name"]);
+    $date_of_birth = sanitizeString($conn, $_POST["date_of_birth"]);
+    $gender = sanitizeString($conn, $_POST["gender"]);
+    $verification_question = sanitizeString($conn, $_POST["verification_question"]);
+    $verification_answer = sanitizeString($conn, $_POST["verification_answer"]);
+    $profile_image = sanitizeString($conn, $_POST["profile_image"]);
 
-    $city = sanitizeString($_POST['city']);
-    $state = sanitizeString($_POST['state']);
+    $city = sanitizeString($conn, $_POST['city']);
+    $state = sanitizeString($conn, $_POST['state']);
     $location = "$city, $state";
 
 
@@ -47,7 +46,7 @@
             <div class='container'>
                 <div class='row'>
                     <div class='col s12'>
-                        <div class=\"card-panel white\">
+                        <div class='card-panel white'>
                             <h5>User must provide the basic information:</h5>
                             <ul style='margin-left: 25px;'>
                                 <li>1. Username</li>
@@ -71,7 +70,7 @@
     else {
         // Create the new user account
         // hash password before inserting into DB
-        $hash_pw = sanitizeString(password_hash($password, PASSWORD_DEFAULT));
+        $hash_pw = sanitizeString($conn, password_hash($password, PASSWORD_DEFAULT));
         $result_insert = mysqli_query($conn, "INSERT INTO users(Username, Password, email, Name, dob, gender, verification_question, verification_answer, location, profile_pic) VALUES ('$username', '$hash_pw', '$email', '$name', '$date_of_birth', '$gender', '$verification_question', '$verification_answer', '$location', '$profile_image')");
 
         if($result_insert) {
