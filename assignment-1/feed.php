@@ -175,12 +175,13 @@
     # Loop through the number of comments and display each one
     for ($j = 0; $j < $num_of_comments; $j++){
       $comment_row = mysqli_fetch_assoc($result_comments);
-      $comment_date = date("h:i a", strtotime($comment_row['created_time']));
+      $comment_time = date("h:i a", strtotime($comment_row['created_time']));
+      $comment_date = date("D. F j, Y", strtotime($comment_row['created_time']));
       $comment_num = $j + 1;
       echo "
         <div class='row' style='padding-left: 10px;'>
             <div class='col s3'>
-              <blockquote class='blockquote-tan'><strong>$comment_row[name]</strong><br>$comment_date</blockquote>
+              <blockquote class='blockquote-tan'><strong>$comment_row[name]</strong><br><a style='color: #000;' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='$comment_date'>$comment_time</a></blockquote>
             </div>
             <div class='col s9' style='margin-top: 20px;'>
               $comment_row[comment]
@@ -313,6 +314,9 @@
     });
 
     $('.materialboxed').materialbox();
+
+    $('.tooltipped').tooltip({delay: 50});
+
   });
 </script>
 
